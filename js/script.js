@@ -46,10 +46,11 @@
     })
 
 
+
     //Timer
 
-    let deadline='2023-02-13';
-    function getTimeRemaining(endtime){
+    let deadline='2023-02-16';
+    function getTimeRemaining(endtime){ // считает время
         let t=Date.parse(endtime)-new Date();// in ms
         let days=Math.floor(t/(1000*3600*24)),
             hours=Math.floor((t/(1000*60*60))%24),
@@ -62,7 +63,15 @@
             'hours': hours,
             'minutes': minutes,
             'seconds': seconds
-        };
+        }; // ниже используются свойства 
+    }
+
+    function getZero(num){ // подставлять нолик когда однозначное число
+        if(num>=0 && num<10){
+            return `0${num}`;
+        } else {
+            return num;
+        }
     }
 
     function setClock(selector, endtime){
@@ -70,21 +79,24 @@
             days=timer.querySelector('#days'),
             hours=timer.querySelector('#hours'),
             minutes=timer.querySelector('#minutes'),
-            seconds=timer.querySelector('#seconds');
-    
-        function updateClock(){  // 
-            let t=getTimeRemaining(endtime);
+            seconds=timer.querySelector('#seconds'),
+            timeInterval=setInterval(updateClock, 1000); // запускаем таймер каждую секунду
 
-            days.innerHTML=t.days;
-            hours.innerHTML=t.hours;
-            minutes.innerHTML=t.minutes;
-            seconds.innerHTML=t.seconds;
+        updateClock();
+        function updateClock(){  
+            let t=getTimeRemaining(endtime); // возвращаются дни часы минуты сек
+
+            days.innerHTML=getZero(t.days);
+            hours.innerHTML=getZero(t.hours);
+            minutes.innerHTML=getZero(t.minutes);
+            seconds.innerHTML=getZero(t.seconds);
+
+            if(t.total<=0){
+                clearInterval(timeInterval);
+            }
         }
-    
-    
-    
     }
 
-    
+    setClock('.timer', deadline)
     
 //})
