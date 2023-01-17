@@ -49,13 +49,19 @@
 
     //Timer
 
-    let deadline='2023-02-16';
+    let deadline='2022-02-16';
     function getTimeRemaining(endtime){ // считает время
         let t=Date.parse(endtime)-new Date();// in ms
-        let days=Math.floor(t/(1000*3600*24)),
+        let days, hours, minutes, seconds;
+        if(t<=0){
+            days=0, hours=0, minutes=0, seconds=0;
+        }
+        else {
+            days=Math.floor(t/(1000*3600*24)),
             hours=Math.floor((t/(1000*60*60))%24),
             minutes=Math.floor((t/(1000*60))%60),
-            seconds=Math.round((t/1000)%60);
+            seconds=Math.round((t/1000)%60); 
+        }
        // return console.log(days,hours,minutes,seconds)
         return{
             'total': t,
@@ -98,5 +104,45 @@
     }
 
     setClock('.timer', deadline)
+    
+
+
+    //Modal
+
+      let modalTrigger=document.querySelectorAll('[data-modal]'),
+          modal=document.querySelector('.modal'),
+          modalCloseBtn=document.querySelector('[data-close]');
+    
+    modalTrigger.forEach(btn =>{
+        btn.addEventListener('click',()=>{
+            modal.classList.toggle('show');
+           //     modal.classList.add('show');
+           //     modal.classList.remove('hide');
+               document.body.style.overflow='hidden'; // чтобы не листать страницу пока мы в модальном окне
+       });
+    });
+
+   
+    modalCloseBtn.addEventListener('click',()=>{
+        modal.classList.toggle('show')
+        // modal.classList.add('hide');
+        // modal.classList.remove('show');
+        document.body.style.overflow=''; // default
+    });
+
+
+    modal.addEventListener('click',(event)=>{
+        if (event.target === modal ){
+            modal.classList.toggle('show');
+            document.body.style.overflow='';
+        }
+    })
+
+    document.addEventListener('keydown',(e)=>{
+        if (e.code==='Escape' && modal.classList.contains('show')){
+            modal.classList.toggle('show');
+            document.body.style.overflow='';
+        }
+    })
     
 //})
