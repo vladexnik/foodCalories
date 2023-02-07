@@ -104,13 +104,20 @@
           modal=document.querySelector('.modal'),
           modalCloseBtn=document.querySelector('[data-close]');
     
+<<<<<<< HEAD
     function openModal(){
        // modal.classList.toggle('show');
             modal.classList.add('show');
             modal.classList.remove('hide');
+=======
+    function openModal() {
+        modal.classList.toggle('show');
+        //     modal.classList.add('show');
+        //     modal.classList.remove('hide');
+>>>>>>> 17e1df0546e3e15183358d313de0d33d914ea17f
             document.body.style.overflow='hidden'; // чтобы не листать страницу пока мы в модальном окне
-        clearInterval(modalTimerId);
-        }
+        // clearInterval(modalTimerId);
+    }
 
     function closeModal(){
         modal.classList.toggle('show')
@@ -144,7 +151,11 @@
   
     
     function scrollModal(){  
+<<<<<<< HEAD
           //  console.log( 'Текущая прокрутка сверху: ' + window.pageYOffset +' '+ document.documentElement.scrollHeight +' '+ document.documentElement.clientHeight );
+=======
+           // console.log( 'Текущая прокрутка сверху: ' + window.pageYOffset +' '+ document.documentElement.scrollHeight +' '+ document.documentElement.clientHeight );
+>>>>>>> 17e1df0546e3e15183358d313de0d33d914ea17f
             if(window.pageYOffset+document.documentElement.clientHeight >= 
                 document.documentElement.scrollHeight) //
             { openModal();
@@ -175,8 +186,13 @@ class Menu{
         let element=document.createElement('div');
 
         if(this.classes.length===0){
+<<<<<<< HEAD
             this.classes='menu__item';
             element.classList.add(this.classes);
+=======
+            this.element='menu__item';
+            element.classList.add();
+>>>>>>> 17e1df0546e3e15183358d313de0d33d914ea17f
         }
         else{
             this.classes.forEach(className=> element.classList.add(className));
@@ -197,9 +213,41 @@ class Menu{
 // let div=new Menu();
 // div.render();
 
+<<<<<<< HEAD
 
 let getResource=async (url)=>{
     let res=await fetch(url);
+=======
+new Menu(
+    "img/tabs/arbuz.jpg",
+    "arbuz is here",
+    "Меню - арбуз", 
+    "Сочный сладкий кусочек блаженства в жаркий летний вечер, который подогреет атмосферу в любом удобном для вас месте. Отлично сочтается с бананом", 
+    12,
+    '.menu .container',
+    'menu__item').render();
+new Menu(
+    "img/tabs/vegy.jpg",
+    "arbuz is here",
+    "Меню - арбуз", 
+    "Сочный сладкий кусочек блаженства в жаркий летний вечер, который подогреет атмосферу в любом удобном для вас месте. Отлично сочтается с бананом", 
+    12,
+    '.menu .container',
+    'menu__item',
+    'big').render();
+
+
+    //forms
+    let forms=document.querySelectorAll('form');
+    let message={
+        loading: 'Загрузка',
+        success: 'Мы с вами свяжемся',
+        failure: 'Сбой произошёл...'
+    };
+    forms.forEach(item=>{
+        postData(item);
+    })
+>>>>>>> 17e1df0546e3e15183358d313de0d33d914ea17f
     
     if(!res.ok){
        throw new Error(`Noo fetch ${url}, status: ${res.status}`);
@@ -388,5 +436,78 @@ function createCard(data){
     fetch('http://localhost:3000/menu')
     .then(data=>data.json())
     .then(res=>console.log(res));
+
+    function postData(form) {
+        form.addEventListener('submit',(event)=>{
+            event.preventDefault();
+            
+            let statusMessage=document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent=message.loading;
+            form.append(statusMessage);
+
+            let request=new XMLHttpRequest();
+            request.open('POST','server.php');
+           // request.setRequestHeader('Content-type', 'multipart/form-data');
+            
+            let formData=new FormData(form);
+
+
+            let object={};
+            formData.forEach((value,key)=>{
+                object[key]=value;
+            });
+
+            let json=JSON.stringify(object);
+            request.send(json);
+
+            //request.send(formData); 
+
+            request.addEventListener('load',()=>{
+                if(request.status=== 200){
+                    console.log(request.response);
+                    statusMessage.textContent=message.success;
+                    //showThanksModal(message.success);
+                     // очищает поля ввода form.reset
+                    form.reset();
+                    setTimeout(()=>{ 
+                        statusMessage.remove();
+                         } , 4000);            
+                }
+                else {
+                    console.log('bad');
+                    statusMessage.textContent=message.failure;
+                    //showThanksModal(message.failure);
+                }
+            });
+        });
+    }
+
+   /* function showThanksModal(message){
+        
+        let prevModalDialog=document.querySelector('.modal__dialog');
+        prevModalDialog.classList.add('hide');
+        openModal();
+        let thanksModal=document.createElement('div');
+        thanksModal.classList.add('modal__dialog');
+        thanksModal.innerHTML=`
+        <div class='modal__content'
+            <div class='modal__close' data-close>x</div>
+            <div class ='modal__title'>${message} </div>
+        </div>
+        >`;
+       
+       document.querySelector('.modal').append(thanksModal);
+
+       setTimeout(()=>{
+            thanksModal.remove();
+            prevModalDialog.classList.add('show');
+            prevModalDialog.classList.remove('hide');
+            closeModal();
+       },4000);
+    }
+*/
+    
+
 
 //})
